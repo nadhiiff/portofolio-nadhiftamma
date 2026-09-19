@@ -4,11 +4,13 @@ import { supabase } from '../supabase'
 import Projects from './dashboard/Projects'
 import Certificates from './dashboard/Certificates'
 import Comments from './dashboard/Comments'
-import { FolderGit2, Award, MessageSquare, LogOut, LayoutDashboard, Menu } from 'lucide-react'
+import Designs from './dashboard/Designs'
+import { FolderGit2, Award, MessageSquare, Palette, LogOut, LayoutDashboard, Menu } from 'lucide-react'
 
 const NAV_ITEMS = [
   { to: 'projects', label: 'Projects', icon: FolderGit2 },
   { to: 'certificates', label: 'Certificates', icon: Award },
+  { to: 'designs', label: 'Designs', icon: Palette },
   { to: 'comments', label: 'Comments', icon: MessageSquare },
 ]
 
@@ -27,9 +29,9 @@ export default function Dashboard() {
       {/* Logo */}
       <div className="flex items-center gap-3 px-1 shrink-0">
         <div className="relative">
-          <div className="absolute -inset-0.5 bg-gradient-to-r from-[#6366f1] to-[#a855f7] rounded-xl blur opacity-50" />
+          <div className="absolute -inset-0.5 bg-gradient-to-r from-red-700 to-red-900 rounded-xl blur opacity-50" />
           <div className="relative w-9 h-9 bg-[#030014] rounded-xl border border-white/15 flex items-center justify-center">
-            <LayoutDashboard className="w-4 h-4 text-indigo-400" />
+            <LayoutDashboard className="w-4 h-4 text-red-400" />
           </div>
         </div>
         <div>
@@ -39,9 +41,9 @@ export default function Dashboard() {
       </div>
 
       {/* Badge */}
-      <div className="shrink-0 px-3 py-2 rounded-full bg-indigo-500/10 border border-indigo-500/20 flex items-center gap-2">
-        <span className="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-pulse" />
-        <span className="text-indigo-300 text-xs font-medium">Portfolio Manager</span>
+      <div className="shrink-0 px-3 py-2 rounded-full bg-red-500/10 border border-red-500/20 flex items-center gap-2">
+        <span className="w-1.5 h-1.5 rounded-full bg-red-400 animate-pulse" />
+        <span className="text-red-300 text-xs font-medium">Portfolio Manager</span>
       </div>
 
       {/* Nav */}
@@ -56,13 +58,13 @@ export default function Dashboard() {
               onClick={() => setSidebarOpen(false)}
               className={`flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 text-sm font-medium shrink-0 ${
                 active
-                  ? 'bg-gradient-to-r from-indigo-500/20 to-purple-500/15 border border-indigo-500/30 text-white'
+                  ? 'bg-gradient-to-r from-red-500/20 to-red-800/15 border border-red-500/30 text-white'
                   : 'text-gray-400 hover:text-gray-200 hover:bg-white/5 border border-transparent'
               }`}
             >
-              <Icon className={`w-4 h-4 shrink-0 ${active ? 'text-indigo-400' : ''}`} />
+              <Icon className={`w-4 h-4 shrink-0 ${active ? 'text-red-400' : ''}`} />
               {label}
-              {active && <span className="ml-auto w-1.5 h-1.5 rounded-full bg-indigo-400" />}
+              {active && <span className="ml-auto w-1.5 h-1.5 rounded-full bg-red-400" />}
             </Link>
           )
         })}
@@ -126,6 +128,7 @@ export default function Dashboard() {
             <Route index element={<Navigate to="projects" replace />} />
             <Route path="projects" element={<Projects />} />
             <Route path="certificates" element={<Certificates />} />
+            <Route path="designs" element={<Designs />} />
             <Route path="comments" element={<Comments />} />
           </Routes>
         </main>

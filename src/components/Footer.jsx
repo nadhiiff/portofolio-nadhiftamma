@@ -4,11 +4,11 @@ const Footer = () => {
   return (
     <footer>
       <center>
-        <hr className="my-3 border-gray-400 opacity-15 sm:mx-auto lg:my-6 text-center" />
-        <span className="block text-sm pb-4 text-gray-500 text-center dark:text-gray-400">
+        <hr className="my-3 border-maroon/20 opacity-50 sm:mx-auto lg:my-6 text-center" />
+        <span className="block text-sm pb-4 text-muted text-center font-body">
           © {currentYear}{" "}
-          <a href="https://ekizr.com" className="hover:underline">
-            EkiZR™
+          <a href="https://nadhiftamma.com" className="hover:underline hover:text-cream transition-colors">
+            nadhiftamma™
           </a>
           . All Rights Reserved.
         </span>

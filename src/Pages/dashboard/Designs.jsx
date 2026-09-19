@@ -4,11 +4,10 @@ import {
   Plus,
   Trash2,
   Upload,
-  FolderGit2,
+  Palette,
   X,
   ImageIcon,
   ExternalLink,
-  Github,
   Pencil,
 } from "lucide-react";
 
@@ -48,20 +47,12 @@ const SkeletonCard = () => (
   <div className="relative">
     <div className="absolute -inset-0.5 bg-gradient-to-r from-red-700 to-red-900 rounded-2xl blur opacity-10" />
     <div className="relative bg-white/5 border border-white/12 rounded-2xl p-4 flex flex-col gap-3">
-      <div className="w-full aspect-[16/8] bg-white/5 animate-pulse rounded-xl" />
+      <div className="w-full aspect-[16/10] bg-white/5 animate-pulse rounded-xl" />
       <div className="h-4 bg-white/5 animate-pulse rounded-lg w-2/3" />
       <div className="h-3 bg-white/5 animate-pulse rounded-lg w-full" />
       <div className="h-3 bg-white/5 animate-pulse rounded-lg w-4/5" />
-      <div className="flex gap-1.5 mt-1">
-        <div className="h-5 w-16 bg-white/5 animate-pulse rounded-full" />
-        <div className="h-5 w-12 bg-white/5 animate-pulse rounded-full" />
-        <div className="h-5 w-20 bg-white/5 animate-pulse rounded-full" />
-      </div>
       <div className="flex justify-between items-center pt-2 border-t border-white/8 mt-auto">
-        <div className="flex gap-2">
-          <div className="w-7 h-7 bg-white/5 animate-pulse rounded-lg" />
-          <div className="w-7 h-7 bg-white/5 animate-pulse rounded-lg" />
-        </div>
+        <div className="w-7 h-7 bg-white/5 animate-pulse rounded-lg" />
         <div className="flex gap-2">
           <div className="w-14 h-7 bg-white/5 animate-pulse rounded-lg" />
           <div className="w-16 h-7 bg-white/5 animate-pulse rounded-lg" />
@@ -71,50 +62,38 @@ const SkeletonCard = () => (
   </div>
 );
 
-const ProjectCard = ({ project, onDelete, onEdit }) => {
+const DesignCard = ({ design, onDelete, onEdit }) => {
   const [imgLoaded, setImgLoaded] = useState(false);
 
   return (
     <Card>
       <div className="p-4 flex flex-col h-full">
-        {project.Img && (
-          <div className="w-full aspect-[16/8] rounded-xl mb-4 border border-white/8 overflow-hidden bg-white/5">
+        {design.image_url && (
+          <div className="w-full aspect-[16/10] rounded-xl mb-4 border border-white/8 overflow-hidden bg-white/5">
             {!imgLoaded && (
               <div className="w-full h-full animate-pulse bg-white/5" />
             )}
             <img
-              src={project.Img}
-              alt={project.Title}
+              src={design.image_url}
+              alt={design.title}
               onLoad={() => setImgLoaded(true)}
               className={`w-full h-full object-cover transition-opacity duration-300 ${imgLoaded ? "opacity-100" : "opacity-0 absolute"}`}
             />
           </div>
         )}
         <h3 className="font-semibold text-white text-sm mb-1">
-          {project.Title}
+          {design.title}
         </h3>
-        {project.Description && (
+        {design.description && (
           <p className="text-gray-400 text-xs mb-3 line-clamp-2 leading-relaxed">
-            {project.Description}
+            {design.description}
           </p>
-        )}
-        {project.TechStack?.length > 0 && (
-          <div className="flex flex-wrap gap-1.5 mb-3">
-            {project.TechStack.map((t) => (
-              <span
-                key={t}
-                className="px-2 py-0.5 rounded-full bg-red-500/15 border border-red-500/25 text-red-300 text-xs"
-              >
-                {t}
-              </span>
-            ))}
-          </div>
         )}
         <div className="mt-auto flex items-center justify-between gap-2 pt-2 border-t border-white/8">
           <div className="flex gap-2">
-            {project.Link && (
+            {design.link && (
               <a
-                href={project.Link}
+                href={design.link}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-1.5 rounded-lg border border-white/10 text-gray-500 hover:text-white hover:border-white/20 transition-colors"
@@ -122,26 +101,16 @@ const ProjectCard = ({ project, onDelete, onEdit }) => {
                 <ExternalLink className="w-3.5 h-3.5" />
               </a>
             )}
-            {project.Github && (
-              <a
-                href={project.Github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-1.5 rounded-lg border border-white/10 text-gray-500 hover:text-white hover:border-white/20 transition-colors"
-              >
-                <Github className="w-3.5 h-3.5" />
-              </a>
-            )}
           </div>
           <div className="flex gap-2">
             <button
-              onClick={() => onEdit(project)}
+              onClick={() => onEdit(design)}
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-red-500/25 text-red-400 hover:bg-red-500/10 text-xs transition-colors"
             >
               <Pencil className="w-3 h-3" /> Edit
             </button>
             <button
-              onClick={() => onDelete(project.id)}
+              onClick={() => onDelete(design.id)}
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-red-500/20 text-red-400 hover:bg-red-500/10 text-xs transition-colors"
             >
               <Trash2 className="w-3 h-3" /> Delete
@@ -183,27 +152,20 @@ const Modal = ({ title, onClose, children }) => (
   </div>
 );
 
-const ProjectForm = ({
+const DesignForm = ({
   initial,
   onSubmit,
   onCancel,
-  submitLabel = "Save Project",
+  submitLabel = "Save Design",
   uploading,
 }) => {
   const [form, setForm] = useState({
-    Title: initial?.Title || "",
-    Description: initial?.Description || "",
-    TechStack: Array.isArray(initial?.TechStack)
-      ? initial.TechStack.join(", ")
-      : initial?.TechStack || "",
-    Features: Array.isArray(initial?.Features)
-      ? initial.Features.join(", ")
-      : initial?.Features || "",
-    Link: initial?.Link || "",
-    Github: initial?.Github || "",
+    title: initial?.title || "",
+    description: initial?.description || "",
+    link: initial?.link || "",
   });
   const [file, setFile] = useState(null);
-  const [preview, setPreview] = useState(initial?.Img || null);
+  const [preview, setPreview] = useState(initial?.image_url || null);
 
   const set = (key) => (e) => setForm((f) => ({ ...f, [key]: e.target.value }));
 
@@ -225,55 +187,39 @@ const ProjectForm = ({
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="sm:col-span-2">
           <InputField
-            label="Project Title"
-            value={form.Title}
-            onChange={set("Title")}
-            placeholder="e.g. My Portfolio Website"
+            label="Judul (Title)"
+            value={form.title}
+            onChange={set("title")}
+            placeholder="e.g. Mobile Banking App Redesign"
             required
           />
         </div>
 
         <div className="sm:col-span-2 space-y-1.5">
           <label className="text-xs text-red-300/70 uppercase tracking-wider font-medium">
-            Description
+            Deskripsi (Description)
           </label>
           <textarea
-            value={form.Description}
-            onChange={set("Description")}
-            placeholder="Describe what this project does, its purpose, and impact..."
+            value={form.description}
+            onChange={set("description")}
+            placeholder="Describe the design concept, tools used, and design decisions..."
             rows={3}
             className="w-full bg-[#0d0d22] border border-white/10 rounded-xl px-4 py-2.5 text-gray-200 placeholder-gray-600 text-sm outline-none focus:border-red-500/60 focus:ring-1 focus:ring-red-500/20 transition-all resize-none"
           />
         </div>
 
-        <InputField
-          label="Tech Stack (comma separated)"
-          value={form.TechStack}
-          onChange={set("TechStack")}
-          placeholder="e.g. React, Tailwind, Supabase"
-        />
-        <InputField
-          label="Key Features (comma separated)"
-          value={form.Features}
-          onChange={set("Features")}
-          placeholder="e.g. Auth, Dark mode, REST API"
-        />
-        <InputField
-          label="Live URL"
-          value={form.Link}
-          onChange={set("Link")}
-          placeholder="https://yourproject.com"
-        />
-        <InputField
-          label="GitHub URL"
-          value={form.Github}
-          onChange={set("Github")}
-          placeholder="https://github.com/username/repo"
-        />
+        <div className="sm:col-span-2">
+          <InputField
+            label="Link"
+            value={form.link}
+            onChange={set("link")}
+            placeholder="https://figma.com/file/... or https://dribbble.com/shots/..."
+          />
+        </div>
 
         <div className="sm:col-span-2 space-y-1.5">
           <label className="text-xs text-red-300/70 uppercase tracking-wider font-medium">
-            Project Image
+            Foto Cover (Cover Photo)
           </label>
           <label className="flex items-center gap-4 w-full bg-[#0d0d22] border border-dashed border-white/15 rounded-xl px-4 py-4 cursor-pointer hover:border-red-500/40 hover:bg-white/4 transition-all">
             {preview ? (
@@ -331,106 +277,129 @@ const ProjectForm = ({
   );
 };
 
-export default function Projects() {
-  const [projects, setProjects] = useState([]);
+export default function Designs() {
+  const [designs, setDesigns] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showCreate, setShowCreate] = useState(false);
-  const [editProject, setEditProject] = useState(null);
+  const [editDesign, setEditDesign] = useState(null);
   const [uploading, setUploading] = useState(false);
 
-  const fetchProjects = async () => {
+  const fetchDesigns = async () => {
     setLoading(true);
-    const { data } = await supabase
-      .from("projects")
+    const { data, error } = await supabase
+      .from("designs")
       .select("*")
       .order("created_at", { ascending: false });
-    setProjects(data || []);
+    if (error) {
+      console.error("Error fetching designs:", error.message);
+      alert("Failed to load designs: " + error.message);
+    }
+    setDesigns(data || []);
     setLoading(false);
   };
 
   useEffect(() => {
-    fetchProjects();
+    fetchDesigns();
   }, []);
 
   const uploadImage = async (f) => {
-    const fileName = `${Date.now()}-${f.name}`;
-    await supabase.storage.from("project-images").upload(fileName, f);
+    const fileName = `design-${Date.now()}-${f.name}`;
+    const { error: uploadError } = await supabase.storage
+      .from("design-images")
+      .upload(fileName, f);
+    if (uploadError) {
+      console.error("Upload error:", uploadError.message);
+      alert("Image upload failed: " + uploadError.message);
+      return null;
+    }
     const { data } = supabase.storage
-      .from("project-images")
+      .from("design-images")
       .getPublicUrl(fileName);
     return data.publicUrl;
   };
 
   const handleCreate = async (form, file) => {
     setUploading(true);
-    let imgUrl = "";
-    if (file) imgUrl = await uploadImage(file);
-    await supabase.from("projects").insert({
-      Title: form.Title,
-      Description: form.Description,
-      Img: imgUrl,
-      TechStack: form.TechStack.split(",")
-        .map((s) => s.trim())
-        .filter(Boolean),
-      Features: form.Features.split(",")
-        .map((s) => s.trim())
-        .filter(Boolean),
-      Link: form.Link,
-      Github: form.Github,
+    let imageUrl = "";
+    if (file) {
+      const url = await uploadImage(file);
+      if (!url) {
+        setUploading(false);
+        return;
+      }
+      imageUrl = url;
+    }
+    const { error } = await supabase.from("designs").insert({
+      title: form.title,
+      description: form.description,
+      image_url: imageUrl,
+      link: form.link,
     });
+    if (error) {
+      console.error("Insert error:", error.message);
+      alert("Failed to create design: " + error.message);
+    }
     setShowCreate(false);
     setUploading(false);
-    fetchProjects();
+    fetchDesigns();
   };
 
   const handleEdit = async (form, file) => {
     setUploading(true);
-    let imgUrl = editProject.Img || "";
-    if (file) imgUrl = await uploadImage(file);
-    await supabase
-      .from("projects")
+    let imageUrl = editDesign.image_url || "";
+    if (file) {
+      const url = await uploadImage(file);
+      if (!url) {
+        setUploading(false);
+        return;
+      }
+      imageUrl = url;
+    }
+    const { error } = await supabase
+      .from("designs")
       .update({
-        Title: form.Title,
-        Description: form.Description,
-        Img: imgUrl,
-        TechStack: form.TechStack.split(",")
-          .map((s) => s.trim())
-          .filter(Boolean),
-        Features: form.Features.split(",")
-          .map((s) => s.trim())
-          .filter(Boolean),
-        Link: form.Link,
-        Github: form.Github,
+        title: form.title,
+        description: form.description,
+        image_url: imageUrl,
+        link: form.link,
       })
-      .eq("id", editProject.id);
-    setEditProject(null);
+      .eq("id", editDesign.id);
+    if (error) {
+      console.error("Update error:", error.message);
+      alert("Failed to update design: " + error.message);
+    }
+    setEditDesign(null);
     setUploading(false);
-    fetchProjects();
+    fetchDesigns();
   };
 
-  const deleteProject = async (id) => {
-    if (!confirm("Delete this project?")) return;
-    await supabase.from("projects").delete().eq("id", id);
-    fetchProjects();
+  const deleteDesign = async (id) => {
+    if (!confirm("Delete this design?")) return;
+    const { error } = await supabase.from("designs").delete().eq("id", id);
+    if (error) {
+      console.error("Delete error:", error.message);
+      alert("Failed to delete design: " + error.message);
+    }
+    fetchDesigns();
   };
 
   return (
-    <div className="space-y-6z ">
+    <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between gap-4 mb-6 flex-wrap">
         <div className="flex items-center gap-3">
           <div className="relative">
             <div className="absolute -inset-0.5 bg-gradient-to-r from-red-700 to-red-900 rounded-xl blur opacity-50" />
             <div className="relative w-9 h-9 bg-[#030014] rounded-xl border border-white/15 flex items-center justify-center">
-              <FolderGit2 className="w-4 h-4 text-red-400" />
+              <Palette className="w-4 h-4 text-red-400" />
             </div>
           </div>
           <div>
             <h1 className="text-xl sm:text-2xl font-bold text-white">
-              Projects
+              Designs
             </h1>
             <p className="text-gray-500 text-xs">
-              {loading ? "Loading..." : `${projects.length} projects total`}
+              {loading ? "Loading..." : `${designs.length} designs total`}
             </p>
           </div>
         </div>
@@ -442,60 +411,60 @@ export default function Projects() {
           <div className="absolute -inset-0.5 bg-gradient-to-r from-red-600 to-red-800 rounded-xl opacity-50 blur group-hover:opacity-80 transition duration-300" />
           <div className="relative flex items-center gap-2 px-4 py-2.5 bg-[#030014] rounded-xl border border-white/10">
             <Plus className="w-4 h-4 text-red-400" />
-            <span className="text-sm text-gray-200">New Project</span>
+            <span className="text-sm text-gray-200">New Design</span>
           </div>
         </button>
       </div>
 
       {/* Create Modal */}
       {showCreate && (
-        <Modal title="Add New Project" onClose={() => setShowCreate(false)}>
-          <ProjectForm
+        <Modal title="Add New Design" onClose={() => setShowCreate(false)}>
+          <DesignForm
             onSubmit={handleCreate}
             onCancel={() => setShowCreate(false)}
-            submitLabel="Save Project"
+            submitLabel="Save Design"
             uploading={uploading}
           />
         </Modal>
       )}
 
       {/* Edit Modal */}
-      {editProject && (
-        <Modal title="Edit Project" onClose={() => setEditProject(null)}>
-          <ProjectForm
-            initial={editProject}
+      {editDesign && (
+        <Modal title="Edit Design" onClose={() => setEditDesign(null)}>
+          <DesignForm
+            initial={editDesign}
             onSubmit={handleEdit}
-            onCancel={() => setEditProject(null)}
-            submitLabel="Update Project"
+            onCancel={() => setEditDesign(null)}
+            submitLabel="Update Design"
             uploading={uploading}
           />
         </Modal>
       )}
 
-      {/* Projects Grid */}
+      {/* Designs Grid */}
       {loading ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
           {Array.from({ length: 6 }).map((_, i) => (
             <SkeletonCard key={i} />
           ))}
         </div>
-      ) : projects.length === 0 ? (
+      ) : designs.length === 0 ? (
         <Card>
           <div className="p-16 text-center">
-            <FolderGit2 className="w-10 h-10 text-gray-700 mx-auto mb-3" />
+            <Palette className="w-10 h-10 text-gray-700 mx-auto mb-3" />
             <p className="text-gray-500 text-sm">
-              No projects yet. Create your first one!
+              No designs yet. Create your first one!
             </p>
           </div>
         </Card>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
-          {projects.map((project) => (
-            <ProjectCard
-              key={project.id}
-              project={project}
-              onDelete={deleteProject}
-              onEdit={setEditProject}
+          {designs.map((design) => (
+            <DesignCard
+              key={design.id}
+              design={design}
+              onDelete={deleteDesign}
+              onEdit={setEditDesign}
             />
           ))}
         </div>

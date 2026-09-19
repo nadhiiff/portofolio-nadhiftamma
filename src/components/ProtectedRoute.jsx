@@ -1,28 +1,46 @@
-import { Navigate } from 'react-router-dom'
-import { useEffect, useState } from 'react'
-import { supabase } from "../supabase"; 
+import { useEffect, useState } from 'react';
+import { Navigate } from 'react-router-dom';
+import { supabase } from '../supabase'; // Sesuaikan path ini jika supabase.js kamu ada di folder berbeda
 
 export default function ProtectedRoute({ children }) {
-  const [allowed, setAllowed] = useState(null)
+  const [loading, setLoading] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    const check = async () => {
-      const { data: { user } } = await supabase.auth.getUser()
-      if (!user) return setAllowed(false)
+    const checkAuth = async () => {
+      // Mengambil sesi user yang sedang aktif
+      const { data: { session } } = await supabase.auth.getSession();
+      
+      // Mengambil email admin dari .env
+      const adminEmail = import.meta.env.VITE_ADMIN_EMAIL;
 
-      const { data: profile } = await supabase
-        .from('profiles')
-        .select('role')
-        .eq('id', user.id)
-        .single()
+      // Cek apakah ada sesi dan apakah emailnya cocok dengan admin
+      if (session && session.user.email === adminEmail) {
+        setIsAuthenticated(true);
+      } else {
+        setIsAuthenticated(false);
+      }
+      
+      setLoading(false);
+    };
 
-      setAllowed(profile?.role === 'admin')
-    }
-    check()
-  }, [])
+    checkAuth();
+  }, []);
 
-  if (allowed === null) return null
-  if (!allowed) return <Navigate to="/login" />
+  // Tampilan saat mengecek status (bisa disesuaikan)
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-[#030014]">
+        <div className="w-8 h-8 border-4 border-red-500/30 border-t-red-500 rounded-full animate-spin"></div>
+      </div>
+    );
+  }
 
-  return children
+  // Jika tidak valid, tendang ke login
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
+
+  // Jika valid, izinkan masuk ke Dashboard
+  return children;
 }
