@@ -76,7 +76,6 @@ const Navbar = () => {
                     onClick={(e) => scrollToSection(e, "#Home")}
                     className="flex items-center gap-2 text-xl font-extrabold text-white tracking-wide cursor-pointer font-serif pl-2"
                 >
-                    <img src="/icon-nadhif.svg" alt="Nadhif Logo" className="w-8 h-8 object-contain" />
                     nadhif
                 </a>
             </div>
