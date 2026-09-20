@@ -30,7 +30,7 @@ export default function ProtectedRoute({ children }) {
   // Tampilan saat mengecek status (bisa disesuaikan)
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#030014]">
+      <div className="min-h-screen flex items-center justify-center bg-black">
         <div className="w-8 h-8 border-4 border-red-500/30 border-t-red-500 rounded-full animate-spin"></div>
       </div>
     );

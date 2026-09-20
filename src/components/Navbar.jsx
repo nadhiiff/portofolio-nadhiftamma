@@ -127,13 +127,13 @@ const Navbar = () => {
 
             {/* Mobile Menu Overlay */}
             <div
-                className={`fixed top-[calc(100%+1rem)] left-0 w-full bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl md:hidden transition-all duration-300 ease-in-out shadow-2xl overflow-hidden ${
+                className={`fixed top-[calc(100%+1rem)] left-0 w-full z-50 bg-black/80 backdrop-blur-xl border border-white/10 rounded-2xl md:hidden transition-all duration-300 ease-in-out shadow-2xl overflow-hidden ${
                     isOpen
                         ? "max-h-[300px] opacity-100"
                         : "max-h-0 opacity-0"
                 }`}
             >
-                <div className="px-4 py-4 flex flex-col space-y-2">
+                <div className="px-4 py-5 flex flex-col space-y-3">
                     {navItems.map((item, index) => (
                         <a
                             key={item.label}

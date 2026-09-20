@@ -101,7 +101,7 @@ export default function Comments() {
         <div className="flex items-center gap-3">
           <div className="relative">
             <div className="absolute -inset-0.5 bg-gradient-to-r from-red-700 to-red-900 rounded-xl blur opacity-50 pointer-events-none" />
-            <div className="relative w-9 h-9 bg-[#030014] rounded-xl border border-white/15 flex items-center justify-center">
+            <div className="relative w-9 h-9 bg-black rounded-xl border border-white/15 flex items-center justify-center">
               <MessageSquare className="w-4 h-4 text-red-400" />
             </div>
           </div>

@@ -98,7 +98,7 @@ export default function Certificates() {
       <div className="flex items-center gap-3">
         <div className="relative">
           <div className="absolute -inset-0.5 bg-gradient-to-r from-red-700 to-red-900 rounded-xl blur opacity-50" />
-          <div className="relative w-9 h-9 bg-[#030014] rounded-xl border border-white/15 flex items-center justify-center">
+          <div className="relative w-9 h-9 bg-black rounded-xl border border-white/15 flex items-center justify-center">
             <Award className="w-4 h-4 text-red-400" />
           </div>
         </div>
@@ -149,7 +149,7 @@ export default function Certificates() {
                 </button>
                 <button onClick={uploadImage} disabled={uploading} className="relative group/u">
                   <div className="absolute -inset-0.5 bg-gradient-to-r from-red-600 to-red-800 rounded-xl opacity-60 blur group-hover/u:opacity-100 transition duration-300" />
-                  <div className="relative flex items-center gap-2 px-4 py-1.5 bg-[#030014] rounded-xl border border-white/10">
+                  <div className="relative flex items-center gap-2 px-4 py-1.5 bg-black rounded-xl border border-white/10">
                     {uploading ? <div className="w-3.5 h-3.5 border-2 border-white/20 border-t-white rounded-full animate-spin" /> : <Upload className="w-3.5 h-3.5 text-red-400" />}
                     <span className="text-xs text-gray-200">{uploading ? 'Uploading...' : 'Upload'}</span>
                   </div>

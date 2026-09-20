@@ -263,13 +263,13 @@ I strive to create engaging digital experiences and deliver the best solutions i
       </div>
 
             <div className="flex flex-col lg:flex-row items-center lg:items-start gap-4 lg:gap-4 lg:px-0 w-full">
-              <a href="https://drive.google.com/drive/folders/1BOm51Grsabb3zj6Xk27K-iRwI1zITcpo" className="w-full lg:w-auto">
+              <a href="https://drive.google.com/file/d/1da3tqcSxLWTtqNA9vboR_5h0zIEJI8Qz/view?usp=sharing" target="_blank" rel="noopener noreferrer" className="w-full lg:w-auto">
               <button 
                 data-aos="fade-up"
                 data-aos-duration="800"
                 className="w-full lg:w-auto sm:px-6 py-2 sm:py-3 rounded-lg bg-gradient-to-r from-maroon to-[#7A2E3B] text-cream font-medium transition-all duration-300 hover:scale-105 flex items-center justify-center lg:justify-start gap-2 shadow-lg hover:shadow-xl font-body"
               >
-                <FileText className="w-4 h-4 sm:w-5 sm:h-5" /> Download CV
+                <FileText className="w-4 h-4 sm:w-5 sm:h-5" /> See my experience
               </button>
               </a>
               <a href="#Portofolio" className="w-full lg:w-auto">

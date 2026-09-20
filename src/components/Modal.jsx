@@ -20,7 +20,7 @@ const ProjectCardModal = ({ title, description, link }) => {
           onClick={() => setIsOpen(false)}
         >
           <div
-            className="relative w-full max-w-md rounded-lg bg-gray-900 p-6 text-white shadow-lg animate-slide-up sm:p-8"
+            className="relative w-full max-w-md rounded-lg bg-black p-6 text-white shadow-lg animate-slide-up sm:p-8"
             onClick={(e) => e.stopPropagation()}
           >
             <button
