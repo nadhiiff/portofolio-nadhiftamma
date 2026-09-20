@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import Swal from "sweetalert2";
 import { toSlug } from "../utils/slug";
+import { formatExternalUrl } from "../utils/formatUrl";
 
 const TECH_ICONS = {
   React: Globe,
@@ -248,7 +249,7 @@ const ProjectDetails = () => {
 
                 <div className="flex flex-wrap gap-3 md:gap-4">
                   <a 
-                    href={project.Link.startsWith("http") ? project.Link : `https://${project.Link}`} 
+                    href={formatExternalUrl(project.Link)}
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="..."
@@ -257,7 +258,7 @@ const ProjectDetails = () => {
                   </a>
 
                   <a
-                    href={project.Github}
+                    href={formatExternalUrl(project.Github)}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="group relative inline-flex items-center space-x-1.5 md:space-x-2 px-4 md:px-8 py-2.5 md:py-4 bg-gradient-to-r from-red-800/10 to-red-900/10 hover:from-red-800/20 hover:to-red-900/20 text-red-300 rounded-xl transition-all duration-300 border border-red-500/20 hover:border-red-500/40 backdrop-blur-xl overflow-hidden text-sm md:text-base"

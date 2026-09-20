@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { ExternalLink, ArrowRight } from "lucide-react";
 import { toSlug } from "../utils/slug";
+import { formatExternalUrl } from "../utils/formatUrl";
 
 const CardProject = ({ Img, Title, Description, Link: ProjectLink, id }) => {
   const handleLiveDemo = (e) => {
@@ -46,7 +47,7 @@ const CardProject = ({ Img, Title, Description, Link: ProjectLink, id }) => {
             <div className="pt-4 flex items-center justify-between">
               {ProjectLink ? (
                 <a
-                  href={ProjectLink || "#"}
+                  href={formatExternalUrl(ProjectLink)}
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={handleLiveDemo}

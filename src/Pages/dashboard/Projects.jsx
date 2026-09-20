@@ -11,6 +11,7 @@ import {
   Github,
   Pencil,
 } from "lucide-react";
+import { formatExternalUrl } from "../../utils/formatUrl";
 
 const Card = ({ children, className = "" }) => (
   <div className={`relative group ${className}`}>
@@ -114,7 +115,7 @@ const ProjectCard = ({ project, onDelete, onEdit }) => {
           <div className="flex gap-2">
             {project.Link && (
               <a
-                href={project.Link.startsWith("http") ? project.Link : `https://${project.Link}`}
+                href={formatExternalUrl(project.Link)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-1.5 rounded-lg border border-white/10 text-gray-500 hover:text-white hover:border-white/20 transition-colors"
@@ -124,7 +125,7 @@ const ProjectCard = ({ project, onDelete, onEdit }) => {
             )}
             {project.Github && (
               <a
-                href={project.Github.startsWith("http") ? project.Github : `https://${project.Github}`}
+                href={formatExternalUrl(project.Github)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-1.5 rounded-lg border border-white/10 text-gray-500 hover:text-white hover:border-white/20 transition-colors"
