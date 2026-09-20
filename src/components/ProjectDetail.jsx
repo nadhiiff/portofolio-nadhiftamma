@@ -247,15 +247,13 @@ const ProjectDetails = () => {
                 <ProjectStats project={project} />
 
                 <div className="flex flex-wrap gap-3 md:gap-4">
-                  <a
-                    href={project.Link}
-                    target="_blank"
+                  <a 
+                    href={project.Link.startsWith("http") ? project.Link : `https://${project.Link}`} 
+                    target="_blank" 
                     rel="noopener noreferrer"
-                    className="group relative inline-flex items-center space-x-1.5 md:space-x-2 px-4 md:px-8 py-2.5 md:py-4 bg-gradient-to-r from-red-600/10 to-red-900/10 hover:from-red-600/20 hover:to-red-900/20 text-red-300 rounded-xl transition-all duration-300 border border-red-500/20 hover:border-red-500/40 backdrop-blur-xl overflow-hidden text-sm md:text-base"
+                    className="..."
                   >
-                    <div className="absolute inset-0 translate-y-[100%] bg-gradient-to-r from-red-600/10 to-red-900/10 transition-transform duration-300 group-hover:translate-y-[0%]" />
-                    <ExternalLink className="relative w-4 h-4 md:w-5 md:h-5 group-hover:rotate-12 transition-transform" />
-                    <span className="relative font-medium">Live Demo</span>
+                    Live Demo
                   </a>
 
                   <a
