@@ -104,17 +104,21 @@ const CommentForm = memo(({ onSubmit, isSubmitting, error }) => {
         }
     }, []);
 
-    const handleSubmit = useCallback((e) => {
+    const handleSubmit = useCallback(async (e) => {
         e.preventDefault();
         if (!newComment.trim() || !userName.trim()) return;
         
-        onSubmit({ newComment, userName, imageFile });
-        setNewComment('');
-        setUserName('');
-        setImagePreview(null);
-        setImageFile(null);
-        if (fileInputRef.current) fileInputRef.current.value = '';
-        if (textareaRef.current) textareaRef.current.style.height = 'auto';
+        const success = await onSubmit({ newComment, userName, imageFile });
+        
+        // Only clear the form if submission was successful
+        if (success) {
+            setNewComment('');
+            setUserName('');
+            setImagePreview(null);
+            setImageFile(null);
+            if (fileInputRef.current) fileInputRef.current.value = '';
+            if (textareaRef.current) textareaRef.current.style.height = 'auto';
+        }
     }, [newComment, userName, imageFile, onSubmit]);
 
     return (
@@ -265,23 +269,24 @@ const Komentar = () => {
         fetchPinnedComment();
     }, []);
 
-    // Fetch regular comments (excluding pinned) and set up real-time subscription
-    useEffect(() => {
-        const fetchComments = async () => {
-            const { data, error } = await supabase
-                .from('portfolio_comments')
-                .select('*')
-                .eq('is_pinned', false)
-                .order('created_at', { ascending: false });
-            
-            if (error) {
-                console.error('Error fetching comments:', error);
-                return;
-            }
-            
-            setComments(data || []);
-        };
+    // Fetch regular comments (excluding pinned)
+    const fetchComments = useCallback(async () => {
+        const { data, error } = await supabase
+            .from('portfolio_comments')
+            .select('*')
+            .eq('is_pinned', false)
+            .order('created_at', { ascending: false });
+        
+        if (error) {
+            console.error('Error fetching comments:', error);
+            return;
+        }
+        
+        setComments(data || []);
+    }, []);
 
+    // Initial fetch and real-time subscription
+    useEffect(() => {
         fetchComments();
 
         // Set up real-time subscription
@@ -303,7 +308,7 @@ const Komentar = () => {
         return () => {
             subscription.unsubscribe();
         };
-    }, []);
+    }, [fetchComments]);
 
     const uploadImage = useCallback(async (imageFile) => {
         if (!imageFile) return null;
@@ -338,24 +343,31 @@ const Komentar = () => {
                 .from('portfolio_comments')
                 .insert([
                     {
-                        content: newComment,
                         user_name: userName,
+                        content: newComment,
                         profile_image: profileImageUrl,
-                        is_pinned: false,
-                        created_at: new Date().toISOString()
                     }
                 ]);
 
             if (error) {
                 throw error;
             }
+
+            // Re-fetch comments immediately so the new comment appears
+            await fetchComments();
+            return true; // Signal success to CommentForm
         } catch (error) {
+            console.error('Supabase Error:', error);
+            console.error('Error message:', error?.message);
+            console.error('Error code:', error?.code);
+            console.error('Error details:', error?.details);
+            console.error('Error hint:', error?.hint);
             setError('Failed to post comment. Please try again.');
-            console.error('Error adding comment: ', error);
+            return false; // Signal failure to CommentForm
         } finally {
             setIsSubmitting(false);
         }
-    }, [uploadImage]);
+    }, [uploadImage, fetchComments]);
 
     const formatDate = useCallback((timestamp) => {
         if (!timestamp) return '';
