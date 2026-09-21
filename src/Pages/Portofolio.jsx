@@ -117,15 +117,15 @@ const techStacks = [
   { icon: "MUI.svg", language: "Material UI" },
   { icon: "vercel.svg", language: "Vercel" },
   { icon: "SweetAlert.svg", language: "SweetAlert2" },
-  { icon: "php.svg", language: "PHP" },
-  { icon: "laravel.svg", language: "Laravel" },
-  { icon: "codeigniter.svg", language: "CodeIgniter" },
-  { icon: "godot.svg", language: "Godot Engine" },
-  { icon: "figma.svg", language: "Figma" },
-  { icon: "python.svg", language: "Python" },
-  { icon: "flutter.svg", language: "Flutter" },
-  { icon: "typescript.svg", language: "TypeScript" },
-  { icon: "supabase.svg", language: "Supabase" },
+  { icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/php/php-original.svg", language: "PHP" },
+  { icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/laravel/laravel-original.svg", language: "Laravel" },
+  { icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/codeigniter/codeigniter-plain.svg", language: "CodeIgniter" },
+  { icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/godot/godot-original.svg", language: "Godot Engine" },
+  { icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/figma/figma-original.svg", language: "Figma" },
+  { icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg", language: "Python" },
+  { icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/flutter/flutter-original.svg", language: "Flutter" },
+  { icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg", language: "TypeScript" },
+  { icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/supabase/supabase-original.svg", language: "Supabase" },
 ];
 
 export default function FullWidthTabs() {
@@ -266,18 +266,20 @@ export default function FullWidthTabs() {
             indicatorColor="secondary"
             variant="fullWidth"
             sx={{
-              minHeight: "70px",
+              minHeight: { xs: "auto", md: "70px" },
               "& .MuiTab-root": {
-                fontSize: { xs: "0.9rem", md: "1rem" },
+                fontSize: { xs: "0.75rem", md: "1rem" },
                 fontWeight: "600",
                 color: "#A3A3A3",
                 textTransform: "none",
                 fontFamily: '"Inter", sans-serif',
                 transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
-                padding: "20px 0",
+                padding: { xs: "12px 0", md: "20px 0" },
                 zIndex: 1,
-                margin: "8px",
+                margin: { xs: "4px", md: "8px" },
                 borderRadius: "12px",
+                minWidth: { xs: "calc(50% - 8px)", md: "auto" },
+                flex: { xs: "0 0 calc(50% - 8px)", md: "1" },
                 "&:hover": {
                   color: "#F4F4F0",
                   backgroundColor: "rgba(92, 26, 36, 0.15)",
@@ -299,7 +301,9 @@ export default function FullWidthTabs() {
                 height: 0,
               },
               "& .MuiTabs-flexContainer": {
-                gap: "8px",
+                gap: { xs: "0px", md: "8px" },
+                flexWrap: "wrap",
+                justifyContent: "center",
               },
             }}
           >
@@ -309,13 +313,13 @@ export default function FullWidthTabs() {
               {...a11yProps(0)}
             />
             <Tab
-              icon={<Award className="mb-2 w-5 h-5 transition-all duration-300" />}
-              label="Certificates"
+              icon={<Palette className="mb-2 w-5 h-5 transition-all duration-300" />}
+              label="Designs"
               {...a11yProps(1)}
             />
             <Tab
-              icon={<Palette className="mb-2 w-5 h-5 transition-all duration-300" />}
-              label="Designs"
+              icon={<Award className="mb-2 w-5 h-5 transition-all duration-300" />}
+              label="Certificates"
               {...a11yProps(2)}
             />
             <Tab
@@ -363,30 +367,6 @@ export default function FullWidthTabs() {
 
           <TabPanel value={value} index={1} dir={theme.direction}>
             <div className="container mx-auto flex justify-center items-center overflow-hidden">
-              <div className="grid grid-cols-1 md:grid-cols-3 md:gap-5 gap-4">
-                {displayedCertificates.map((certificate, index) => (
-                  <div
-                    key={certificate.id || index}
-                    data-aos={index % 3 === 0 ? "fade-up-right" : index % 3 === 1 ? "fade-up" : "fade-up-left"}
-                    data-aos-duration={index % 3 === 0 ? "1000" : index % 3 === 1 ? "1200" : "1000"}
-                  >
-                    <Certificate ImgSertif={certificate.Img} />
-                  </div>
-                ))}
-              </div>
-            </div>
-            {certificates.length > initialItems && (
-              <div className="mt-6 w-full flex justify-start">
-                <ToggleButton
-                  onClick={() => toggleShowMore('certificates')}
-                  isShowingMore={showAllCertificates}
-                />
-              </div>
-            )}
-          </TabPanel>
-
-          <TabPanel value={value} index={2} dir={theme.direction}>
-            <div className="container mx-auto flex justify-center items-center overflow-hidden">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 2xl:grid-cols-3 gap-5">
                 {displayedDesigns.map((design, index) => (
                   <div
@@ -408,7 +388,7 @@ export default function FullWidthTabs() {
                             </div>
                           )}
                           <div className="mt-4 space-y-3">
-                            <h3 className="text-xl font-semibold text-cream font-heading">
+                            <h3 className="text-xl font-bold text-cream font-['Inter']">
                               {design.title}
                             </h3>
                             {design.description && (
@@ -447,6 +427,30 @@ export default function FullWidthTabs() {
                 <ToggleButton
                   onClick={() => toggleShowMore('designs')}
                   isShowingMore={showAllDesigns}
+                />
+              </div>
+            )}
+          </TabPanel>
+
+          <TabPanel value={value} index={2} dir={theme.direction}>
+            <div className="container mx-auto flex justify-center items-center overflow-hidden">
+              <div className="grid grid-cols-1 md:grid-cols-3 md:gap-5 gap-4">
+                {displayedCertificates.map((certificate, index) => (
+                  <div
+                    key={certificate.id || index}
+                    data-aos={index % 3 === 0 ? "fade-up-right" : index % 3 === 1 ? "fade-up" : "fade-up-left"}
+                    data-aos-duration={index % 3 === 0 ? "1000" : index % 3 === 1 ? "1200" : "1000"}
+                  >
+                    <Certificate ImgSertif={certificate.Img} />
+                  </div>
+                ))}
+              </div>
+            </div>
+            {certificates.length > initialItems && (
+              <div className="mt-6 w-full flex justify-start">
+                <ToggleButton
+                  onClick={() => toggleShowMore('certificates')}
+                  isShowingMore={showAllCertificates}
                 />
               </div>
             )}

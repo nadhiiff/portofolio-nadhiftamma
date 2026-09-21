@@ -36,7 +36,7 @@ const CardProject = ({ Img, Title, Description, Link: ProjectLink, id }) => {
           </div>
 
           <div className="mt-4 space-y-3">
-            <h3 className="text-xl font-semibold text-cream font-heading">
+            <h3 className="text-xl font-bold text-cream font-['Inter']">
               {Title}
             </h3>
 

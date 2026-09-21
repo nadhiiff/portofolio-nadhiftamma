@@ -1,5 +1,5 @@
 import React, { useEffect, useState, memo, useMemo } from "react"
-import { FileText, Code, Award, Globe, ArrowUpRight, Sparkles, UserCheck } from "lucide-react"
+import { FileText, Code, Award, Globe, ArrowUpRight, Palette, UserCheck } from "lucide-react"
 import AOS from 'aos'
 import 'aos/dist/aos.css'
 
@@ -114,6 +114,7 @@ const AboutPage = () => {
   // Memoized calculations
   const [stats, setStats] = useState({
     totalProjects: 0,
+    totalDesigns: 0,
     totalCertificates: 0,
     YearExperience: 0,
   });
@@ -121,15 +122,17 @@ const AboutPage = () => {
   useEffect(() => {
     const updateStats = () => {
       const storedProjects = JSON.parse(localStorage.getItem("projects") || "[]");
+      const storedDesigns = JSON.parse(localStorage.getItem("designs") || "[]");
       const storedCertificates = JSON.parse(localStorage.getItem("certificates") || "[]");
       
-      const startDate = new Date("2021-11-06");
+      const startDate = new Date("2024-01-01");
       const today = new Date();
       const experience = today.getFullYear() - startDate.getFullYear() -
         (today < new Date(today.getFullYear(), startDate.getMonth(), startDate.getDate()) ? 1 : 0);
 
       setStats({
         totalProjects: storedProjects.length,
+        totalDesigns: storedDesigns.length,
         totalCertificates: storedCertificates.length,
         YearExperience: experience
       });
@@ -146,7 +149,7 @@ const AboutPage = () => {
     };
   }, []);
 
-  const { totalProjects, totalCertificates, YearExperience } = stats;
+  const { totalProjects, totalDesigns, totalCertificates, YearExperience } = stats;
 
   // Optimized AOS initialization
   useEffect(() => {
@@ -183,6 +186,14 @@ const AboutPage = () => {
       animation: "fade-right",
     },
     {
+      icon: Palette,
+      color: "from-[#7A2E3B] to-maroon",
+      value: totalDesigns,
+      label: "Total Design Projects",
+      description: "Creative design concepts",
+      animation: "fade-up",
+    },
+    {
       icon: Award,
       color: "from-[#7A2E3B] to-maroon",
       value: totalCertificates,
@@ -198,7 +209,7 @@ const AboutPage = () => {
       description: "Continuous learning journey",
       animation: "fade-left",
     },
-  ], [totalProjects, totalCertificates, YearExperience]);
+  ], [totalProjects, totalDesigns, totalCertificates, YearExperience]);
 
   return (
     <div
@@ -227,7 +238,7 @@ const AboutPage = () => {
                 data-aos-duration="1300"
                 itemProp="name"
               >
-                Muh. Nadhiftamma Ayatilla
+                Muh. Nadhiftamma Ayatilla A.P
               </span>
             </h2>
             
@@ -258,7 +269,7 @@ I strive to create engaging digital experiences and deliver the best solutions i
         </div>
         
         <blockquote className="text-cream/80 text-center lg:text-left italic font-medium text-sm relative z-10 pl-6 font-body">
-          "Leveraging AI as a professional tool, not a replacement."
+          "Less talk, less overthinking, just action."
         </blockquote>
       </div>
 
@@ -288,7 +299,7 @@ I strive to create engaging digital experiences and deliver the best solutions i
         </div>
 
         <a href="#Portofolio">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16 cursor-pointer">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-16 cursor-pointer">
             {statsData.map((stat) => (
               <StatCard key={stat.label} {...stat} />
             ))}
